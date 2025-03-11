@@ -2,6 +2,7 @@
 
 	ButtonNames = {
 		"A",
+		"B",
 		"Down",
 		"Left",
 		"Right",
