@@ -1,3 +1,5 @@
+I added one where it learns to speedrun, thats it, everything else is made by emmanuele-villa
+
 # Mario IA
 This is a collection of machine learning scripts that plays the first level of Super Mario Bros.
 ## What you need to run it:
