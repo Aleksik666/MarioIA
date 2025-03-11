@@ -20,10 +20,11 @@ end
 jump_weight = 0.8
 right_weight = 0.95
 left_weight = 0.05
-
 down_weight = 0.05
-
 turbo_weight = 0.8
+
+stuck_timer = 0
+max_stuck_time = 120
 
 function randomInput()
     local outputs = {}
@@ -62,7 +63,8 @@ function doRun()
     getPositions()
 
     oldX = marioX
-    stuck = 0
+    oldY = marioY
+    stuck_timer = 0
     frame_count = 0
 
     if mainMoves ~= nil then    
@@ -87,18 +89,22 @@ function doRun()
             break
         end
         
-        if oldX == marioX then
-            stuck = stuck + 1
+        if oldX == marioX and oldY == marioY then
+            stuck_timer = stuck_timer + 1
         else
-            stuck = 0
+            stuck_timer = 0
         end
         
-        if stuck > 200 then
-            right_weight = math.min(right_weight + 0.1, 1.0)
-            stuck = 0
+        if stuck_timer > max_stuck_time then
+            jump_weight = 0.2
+            right_weight = 1.0
+            left_weight = 0.0
+            turbo_weight = 1.0
+            stuck_timer = 0
         end
         
         oldX = marioX
+        oldY = marioY
         emu.frameadvance()
         frame_count = frame_count + 1
     end
