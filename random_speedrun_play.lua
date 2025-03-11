@@ -30,7 +30,7 @@ function randomInput()
     local outputs = {}
 
     if math.random() < jump_weight then
-        outputs["P1 A"] = true
+        outputs["P1 A"] = math.random() < 0.5  -- Randomize jump height
     end
 
     if math.random() < right_weight then
@@ -85,7 +85,7 @@ function doRun()
         joypad.set(controller)
         table.insert(subMoves, controller)
         
-        if memory.readbyte(0x000E) == 0x06 then
+        if memory.readbyte(0x000E) == 0x06 or memory.readbyte(0x000D) == 0x00 then  -- Detect death properly
             break
         end
         
@@ -96,7 +96,7 @@ function doRun()
         end
         
         if stuck_timer > max_stuck_time then
-            jump_weight = 0.2
+            jump_weight = 0.5  -- Allow bigger jumps
             right_weight = 1.0
             left_weight = 0.0
             turbo_weight = 1.0
